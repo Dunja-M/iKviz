@@ -24,10 +24,11 @@ class ViewController: UIViewController {
 
     @objc func updateUI () {
         
+//      writing question, score and progress
         questionLabel.text = quizBrain.newQuestionText()
         scoreLabel.text = "Score : \(quizBrain.getScore())"
         progressBar.progress = quizBrain.getProgress()
-        
+//      shuffling answers
         for (index, button) in answerButtons.enumerated() {
             switch index {
             case 0:
@@ -43,9 +44,9 @@ class ViewController: UIViewController {
         }
         answerButtons.shuffle()
     }
-    
-    @IBAction func answerButton(_ sender: UIButton) {
         
+    @IBAction func answerButton(_ sender: UIButton) {
+//      checking answer
         let userAnswer = sender.currentTitle
      
         if userAnswer == quizBrain.quiz[quizBrain.questionNumber].trueAnswer {
@@ -61,8 +62,16 @@ class ViewController: UIViewController {
         if quizBrain.questionNumber + 1 < quizBrain.quiz.count {
         quizBrain.questionNumber += 1
         } else {
+            
+            let alert = UIAlertController(title: "Bravo! Tvoj rezultat je \(quizBrain.score)", message: "zelite li da igrate ispocetka?", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "zelim", style: UIAlertAction.Style.default, handler: nil))
+            
+            self.present(alert, animated: true, completion: nil)
+          
             quizBrain.score = 0
             quizBrain.questionNumber = 0
+            
         }
         
         // Pogledaj koji je odgovor korisnik odabrao
@@ -73,5 +82,6 @@ class ViewController: UIViewController {
         // Pokaži sledeće pitanje
         
     }
+        
 }
 
